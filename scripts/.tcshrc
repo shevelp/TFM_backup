@@ -1,0 +1,158 @@
+#! /bin/tcshrc
+
+#################################################################
+#
+#         .tcshrc file
+#
+#################################################################
+#
+
+
+###### VARIABLES ENTORNO  #######################
+
+setenv HOME          /home/conte
+setenv LANG  en_US
+setenv GDM_LANG  en_US
+#setenv Music         ${HOME}/Music
+#setenv Download      ${HOME}/Download
+#setenv Pictures      ${HOME}/Pictures
+setenv entra         ${HOME}/entra
+setenv codig         ${entra}/progrm/codig
+setenv exec          ${entra}/exec
+setenv scripts       ${entra}/scripts
+setenv GFs           ${entra}/GFs
+setenv turquia       ${GFs}/trabajos/turquia
+
+# Cargar variables de entorno para el compilador de Intel
+
+#
+#source  /opt/intel/fc/10.1.015/bin/ifortvars.csh
+#source  /opt/intel/fc/10.1.015/bin/ifortvars.csh
+#source  /opt/intel/bin/ifortvars.csh intel64
+#source /opt/intel/composer_xe_2011_sp1.6.233/bin/ifortvars.sh intel64
+source /opt/intel/composer_xe_2011_sp1.10.319/bin/ifortvars.csh intel64
+
+setenv LANGUAGE C
+#metemos otra mas para el manejo de BIG ENDIAN
+#setenv F_UFMTENDIAN big
+#setenv  LD_LIBRARY_PATH   /opt/intel/Compiler/11.1/064/lib/intel64 
+
+#gmtset PAPER_MEDIA a4+
+
+#set path = (${path} /usr/bin /usr/lib/ /usr/local/bin /usr/local/vf90 /sbin  /opt  ${scripts}/ ${exec}/ /usr/local/idl70/idl/bin   /usr/java/jre1.6.0_13  /home/elena/entra/soft/jblob/Jblob-1.4.22   ${scripts}/plot /usr/local/pingo_1.6/bin /usr/local/GMT/GMT4.3.1/bin /var/lib/ ${codig}/ . )
+#este es el que usaba
+#set path = (${path} /usr/bin /usr/lib/ /usr/local/bin  /usr/lib64 /sbin  /opt/openoffice.org3/program /opt  ${scripts}/ ${exec}/  ${scripts}/plot /usr/share/GMT /var/lib/  /opt/intel/bin/ ${codig}/ /opt/intel/lib/intel64 . )
+
+set path = (${path} /usr/bin /usr/lib/ /usr/local/bin  /usr/lib64 /sbin  /opt/openoffice.org3/program /opt  ${scripts}/ ${exec}/  ${scripts}/plot /usr/share/GMT /var/lib/  /opt/intel/bin/ /opt/intel/lib/intel64 . )
+
+#set path = (${path} /usr/bin /usr/lib/ /usr/local/bin  /sbin  /opt  ${scripts}/ ${exec}/  ${scripts}/plot /usr/share/GMT /var/lib/ ${codig}/ /usr/lib64/ccache/gcc . )
+
+# /usr/local/vf90 
+set prompt='%B[%n@%m]%b%/> '
+
+###########  ALIAS  #############
+alias ll            'ls -l'
+alias la            'ls -la'
+alias lt            'ls -lrt'
+alias lh            'ls -lrSh'
+alias c             'clear'
+alias p             'rm *~'
+alias entra         'cd ${HOME}/entra'
+alias sour          'source ${HOME}/.tcshrc'
+alias data          'cd ${entra}/data'
+alias codig         'cd ${entra}/progrm/codig'
+alias scripts       'cd ${entra}/scripts'
+alias work          'cd ${entra}/work'
+alias exec          'cd ${entra}/exec'
+alias papers        'cd ${entra}/papers'
+alias documents     'cd ${entra}/documents'
+alias contactos     'cd ${entra}/contactos'
+alias conferences   'cd ${entra}/conferences'
+alias GFs           'cd ${entra}/GFs'
+alias convenios     'cd ${entra}/convenios'
+alias turquia       'cd ${GFs}/trabajos/turquia'
+alias Iberdrola     'cd ${GFs}/trabajos/Iberdrola'
+alias cisj          'cd ${GFs}/trabajos/Cisjordania'
+alias trabajos      'cd ${GFs}/trabajos'
+alias propuestas    'cd ${GFs}/propuestas'
+
+
+# Alias EDP
+alias edp           'cd ${GFs}/trabajos/EDP'
+#alias tasks         'cd ${GFs}/trabajos/EDP/tasks/'
+
+# Alias NOOR
+alias noor         'cd ${GFs}/trabajos/NOOR1'
+alias tasks        'cd ${GFs}/trabajos/NOOR1/tasks'
+alias data         'cd ${GFs}/trabajos/NOOR1/data'
+alias nca          'cd ${GFs}/trabajos/NOOR1/data/NCAR'
+alias loc          'cd ${GFs}/trabajos/NOOR1/data/LOCAL'
+alias met          'cd ${GFs}/trabajos/NOOR1/data/MeteoMaroc'
+alias wrf          'cd ${GFs}/trabajos/NOOR1/data/WRF'
+
+
+
+
+# alias validacion iberdrola
+#alias valid	    'cd /hielo2/GFs/trabajos/Iberdrola/tasks/validation/'
+#alias data	    'cd /hielo2/GFs/trabajos/Iberdrola/data'
+#alias sat	    'cd /hielo2/GFs/trabajos/Iberdrola/data/satelites/extra'
+#alias obs	    'cd /hielo2/GFs/trabajos/Iberdrola/data/obs/obs04_pi'
+#alias era	    'cd /hielo2/GFs/trabajos/Iberdrola/data/GCM/ERAIT/extra'
+#alias wrf	    'cd /hielo2/GFs/trabajos/Iberdrola/data/WRF/E3030F04/extra'
+#alias def	    'cd /hielo2/GFs/trabajos/Iberdrola/data/def'
+##alias data	    'cd /hielo2/GFs/trabajos/Iberdrola/data'
+#alias valid	    'cd ${GFs}/trabajos/Cisjordania/tasks_valid'
+#alias tasks         'cd ${GFs}/trabajos/Iberdrola/tasks/sens_exp/'
+
+
+
+alias backup        '/home/conte/scripts/backupentra.s'
+
+alias cierzo        'ssh -X conte@147.96.67.18'
+alias anemoi        'ssh -X angela@anemoi.fis.ucm.es'
+alias anemoiter     'ssh -fX angela@anemoi.fis.ucm.es gnome-terminal'
+alias brisa	    'ssh -X guest@brisa.fis.ucm.es'
+alias rocio         'ssh -X conte@rocio.hst.ucm.es'
+alias rocioa        'ssh -X angela@rocio.hst.ucm.es'
+alias rocioter      'ssh -fX conte@rocio.hst.ucm.es gnome-terminal'
+#alias cpbrisa       'scp $1 guest@brisa.fis.ucm.es:/home/guest/Desktop/.'
+alias rocioin       'scp -r $1 conte@rocio.hst.ucm.es:/home/conte/rocio_in/.'
+alias exp           'cd /home/conte/entra/GFs/trabajos/Iberdrola/data/WRF/sens_exp'
+alias -             'cd ..'
+alias ecmwfter      'ssh -fX sp1b@ecaccess.ecmwf.int gnome-terminal'
+alias ecmwf         'ssh -X sp1b@ecaccess.ecmwf.int'
+alias eolo          'echo "------------"; echo "QAZeolo2wsx"; ssh -X fispalma23@eolo.hst.ucm.es'
+alias eoloter  'echo "------------"; echo "QAZeolo2wsx"; ssh -f -X fispalma23@eolo.hst.ucm.es gnome-terminal'
+alias seracre       'echo "------------"; echo "QAZseracre2wsx"; echo "------------"; echo "ssh -fX u4556@euler gnome-terminal"; echo "rft345"; echo "------------"; echo "ssh -fX u4484@euler gnome-terminal"; echo "99u4484!"; echo "------------"; ssh -X cie4556@seracre.ciemat.es'
+
+
+alias hielo2        'cd /hielo2'
+alias ntasks        'cd /hielo2/GFs/trabajos/Iberdrola/tasks/sens_exp'
+
+alias espacio       'df -hT'
+alias tamano        'du -h $1' 
+
+alias mroe	    'more'
+alias emacas        'emacs'
+alias e		    'evince'
+alias vi            'vim'
+alias abre          'xdg-open'
+
+alias echar         'skill -KILL -u $1'
+
+alias report        'cd /home/conte/entra/GFs/trabajos/NOOR1/report/versionA'
+alias edreport      'gedit report_14gf15a13ou.tex model.tex obs_dataset.tex&; e report_14gf15a13ou.pdf&'
+alias genreport     './laps_pdf.s report_14gf15a13ou'
+
+alias wake          'wakeon.sh $1'
+
+alias eje           'chmod +x $1'
+alias cls           'clear;ls'
+alias clt	    'clear;ls -lrt'
+
+alias afiguras      'cp -r $1 /home/conte/Dropbox/GLOBALbegins/PROYECTOS/NOOR1-Ouarzazate/figures_in/'
+alias afigurascor   'cp $1 /home/conte/Dropbox/GLOBALbegins/PROYECTOS/NOOR1-Ouarzazate/figures_in/corregir/.'
+
+#alias webup         'rsync --delete -avz ${HOME}/entra/personal_webpage/public_html/ angela@palma.fis.ucm.es:/home/angela/public_html'
+alias silfide      'ssh -X -f angela@silfide.fis.ucm.es gnome-terminal'
