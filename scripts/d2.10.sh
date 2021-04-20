@@ -62,7 +62,8 @@ cp ${cajondir}/genfechas-1h.f    ${progsdir}
 cp ${cajondir}/ondanual.f        ${progsdir}
 cp ${cajondir}/runmean.f         ${progsdir}
 cp ${cajondir}/trans.f           ${progsdir}
-cp ${cajondir}/sacser.f          ${progsdir}
+cp ${cajondir}/stat.f            ${progsdir}
+
 
 #Compiling programs
 ${scriptsdir}/generico/compila.sh       fechas2.f
@@ -77,8 +78,8 @@ ${scriptsdir}/generico/compila.sh       genfechas-1h.f
 ${scriptsdir}/generico/compila.sh       ondanual.f
 ${scriptsdir}/generico/compila.sh       runmean.f
 ${scriptsdir}/generico/compila.sh       trans.f
-${scriptsdir}/generico/compila.sh       sacser.f
-
+${scriptsdir}/generico/compila_v7.sh    stat.f
+$${scriptsdir}/generico/compila.sh      ponasci.f
 exit
 
 #Checking dates and format
@@ -134,22 +135,28 @@ eof
 echo "Done\n"
 
 #Wave, moving average
-sh ${scriptsdir}/generico/ondanual_s.sh diary_mean.ext diary_mean_wave.ext
+sh ${scriptsdir}/generico/ondanual_s.sh diary_mean.ext anom.ext
 
 #Anomalies: change NN: use anomalies_p
 #------------------------------------
-echo "Calculating anomalies"
-${progsdirexec}/anomal-p.f.out <<eof
-diary_mean_wave.ext
-anom.ext
-anom2.ext
-eof
+#echo "Calculating anomalies"
+#${progsdirexec}/anomal-p.f.out <<eof
+#diary_mean_wave.ext
+#anom.ext
+#eof
 
 #-----------------------------------
 #Seasson selection
-echo "Seasson selection:Winter\n"
-${progsdirexec}/selmon_ia10.f.out<<eof
+echo "Seasson selection:Winter\n" #Special:### Se recorta el periodo para que empiece por 
+#diciembre y así tener meses de un mismo invierno 
+${progsdirexec}/selper.f.out<<eof
 anom.ext
+winter_anom.ext
+1990120100,1991113000
+eof
+
+${progsdirexec}/selmon_ia10.f.out<<eof
+winter_anom.ext
 def.ext
 12,2
 eof
@@ -338,20 +345,30 @@ echo "Plotting maps\n"
 #Plotting
 if [ ${switch4} -eq 1 ] ; then
 
-${scriptsdir}/d2/gmt_IP.sh def_spatial_mean.ext #gmt_IP.sh includes transpon.f and origin2.f to generates dataset, transpon.f have modified the parameters to work!
-mv cont_analysis.ps ${plotsdir}/def-map.ps
+echo "DEF"
+${scriptsdir}/d2/gmt_med.sh def_spatial_mean.ext #gmt_IP.sh includes transpon.f and origin2.f to generates dataset, transpon.f have modified the parameters to work!
+ps2eps -f cont_analysis.ps 
+mv cont_analysis.eps ${plotsdir}/def-map.ps
 
-${scriptsdir}/d2/gmt_IP.sh mam_spatial_mean.ext #gmt_IP.sh includes transpon.f and origin2.f to generates dataset, transpon.f>
-mv cont_analysis.ps ${plotsdir}/mam-map.ps
+echo "MAM"
+${scriptsdir}/d2/gmt_med.sh mam_spatial_mean.ext #gmt_IP.sh includes transpon.f and origin2.f to generates dataset, transpon.f>
+ps2eps -f cont_analysis.ps 
+mv cont_analysis.eps ${plotsdir}/mam-map.ps
 
-${scriptsdir}/d2/gmt_IP.sh jja_spatial_mean.ext
-mv cont_analysis.ps ${plotsdir}/jja-map.ps
+echo "JJA"
+${scriptsdir}/d2/gmt_med.sh jja_spatial_mean.ext
+ps2eps -f cont_analysis.ps 
+mv cont_analysis.eps ${plotsdir}/jja-map.ps
 
-${scriptsdir}/d2/gmt_IP.sh son_spatial_mean.ext
-mv cont_analysis.ps ${plotsdir}/son-map.ps
+echo "SON"
+${scriptsdir}/d2/gmt_med.sh son_spatial_mean.ext
+ps2eps -f cont_analysis.ps 
+mv cont_analysis.eps ${plotsdir}/son-map.ps
 
-${scriptsdir}/d2/gmt_IP.sh anu_spatial_mean.ext
-mv cont_analysis.ps ${plotsdir}/anu-map.ps
+echo "ANU"
+${scriptsdir}/d2/gmt_med.sh anu_spatial_mean.ext
+ps2eps -f cont_analysis.ps 
+mv cont_analysis.eps ${plotsdir}/anu-map.ps
 fi
 
 #----------------------------------------------> Switch5

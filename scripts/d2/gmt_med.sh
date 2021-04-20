@@ -4,7 +4,7 @@
 #                                                                            #
 #                                                                            #
 #                                                                            #
-#                       GMT: PLOTTING MAPS	                             #
+#                       GMT: PLOTTING MAPS                                   #
 #                                                                            #
 #                                                                            #
 #                                                                            #
@@ -14,13 +14,10 @@
 # Stablishig flags
 #---------------------------------------------------------------------------
 
+PROJ=-JM10c
+LIMS=-R-16.5/42./26.5/48.5
 
-RFLAG=-R-16.5/42./26.5/48.5 # SELECT YOUR MARK! (format is W_Border/E_Border/S_Border/N_Border)
-
-JFLAG=-Jm0.2c
-RJFLAG="${RFLAG} ${JFLAG}"
-#IFLAG=-I0.5m
-
+RJFLAG="${PROJ} ${LIMS}"
 
 # Select your directories
 #---------------------------------------------------------------------------
@@ -90,22 +87,10 @@ fi
 awk 'NR < 100001 { print }' datos.dat| sponge datos.dat
 
 #
-# -----------------------------------------------------------------------
+# ------------------------------------------------------------------------
 #
 
-# Plotting
-#---------------------------------------------------------------------------
-
-if [ $paso2 -eq 1 ] ; then
-
-#
-#   SETTINGS  #
-gmt set MAP_FRAME_WIDTH			= 0.01p
-gmt set FONT_LABEL			= 14p,Times-Italic,black
-gmt set PS_MEDIA 			= A4
-
-
-#   SETTINGS  #
+if [ $paso2 -eq 1 ]  ;  then
 
 #  Escala de color de la temperatura
 echo 'makecpt'
@@ -119,31 +104,45 @@ cat datos.dat | awk {'print $3'} | sort -n | tail -1
 echo 'Select your scale: min/max/freq':
 read scale
 
-echo 'Select your variable:'
-read var
+echo 'Select your period:'
+read period 
 
-echo 'What period'
-read period
+echo 'Select your frequency in scale'
+read freq
 
-gmt makecpt -C${scriptsdir}/generico/temp_19lev.cpt -T$scale > color.cpt
+echo 'invert? Y = I, N = ""'
+read invert
+
+#
+#-------------------------------------------------------------------------
+#
+
+#Map confg
+gmt set MAP_FRAME_WIDTH                 = 2p
+gmt set FONT_LABEL                      = 14p,Times-Italic,black
 
 
-#Dibuja las lineas de costa y topografia
+#Color Palette
 
-echo 'pscoast'
-
-gmt pscoast $RJFLAG -Ba15f10/a5f5 -W1 -Dh -A100  -P -K  > ${file_out}
+gmt makecpt -C${scriptsdir}/generico/temp_19lev.cpt -T$scale $invert > color.cpt
 
 
-#  Dibuja el mapa de observaciones sobre su grid 
-cat datos.dat |awk '{print $2, $1, $3}'| gmt psxy $RJFLAG -Ccolor.cpt -Ss0.04c -O -K     >>${file_out} # Relleno del grid 1.0 x 1.0
+#plotting
 
-gmt pscoast $RJFLAG -Ba15f10/a5f5 -W1 -Dh -A100  -O -K  >> ${file_out}
+gmt pscoast $RJFLAG -W0.5p -K > ${file_out}
 
-#  Escala para la leyenda
-echo 'psscale'
+gmt psbasemap $RJFLAG -Bxa10 -Bya5 -BWesN -K -O >> ${file_out}
 
-gmt psscale -Ccolor.cpt -D6/-0.8/9/0.2h  -B10:"$var": -O -K >> ${file_out}
+cat datos.dat |awk '{print $2, $1, $3}'|gmt psxy $RJFLAG -Ccolor.cpt -Ss0.04c -O -K >> ${file_out}
+
+gmt pscoast $RJFLAG -W0.5 -O -K  >> ${file_out}
+
+gmt psscale -Ccolor.cpt -D5/-0.4/10/0.2h -B$freq -O -K >> ${file_out}
+
+gmt pstext -R -JM -N -D-0.5/0 -O << eof>> ${file_out}
+42 28 10 0 4 CM $period
+eof
+
 
 # ... Cierra el fichero ...
 #
@@ -151,15 +150,16 @@ gmt psxy $RJFLAG /dev/null -O >>  ${file_out}
 
 fi
 
-# Removing intermediate files 
-#---------------------------------------------------------------------------
-if [ $paso3 -eq 1 ] ; then
 
-rm gmt.history  color.cpt 
-rm datos.dat
 
-fi
 
-#---------------------------------------------------------------------------
 
-exit
+
+
+
+
+
+
+
+
+

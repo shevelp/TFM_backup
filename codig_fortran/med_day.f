@@ -87,7 +87,7 @@ c
 c
       do 110 i=1,ia(4)
       if (nmiss(i).le.kmis) then
-c     s(i)=s(i)/float(ldat(i))
+      s(i)=s(i)/float(ldat(i))
       else
       s(i)=spval
       endif

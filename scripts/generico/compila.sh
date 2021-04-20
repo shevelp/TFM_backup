@@ -19,7 +19,7 @@ direxec=${dirhome}/progs/exec/
 
        cd  ${direxec}
 
-                  gfortran ${direxec}prog-temp.f
+                  gfortran -mcmodel=medium ${direxec}prog-temp.f
 
 #  o bien 
 #                f95  ${dir2}prog-temp.f	

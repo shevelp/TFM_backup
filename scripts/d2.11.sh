@@ -13,7 +13,7 @@
 #2) scp guest@xirimiri.fis.ucm.es:/home/guest/GReatModelS/out/latlon/lat_lon_GReatModelS.dat /home/sergiolp/Work/TFM/data/d2
 
 #---Switches -----# 
-switch0=0 #Copying data to workdir
+switch0=1 #Copying data to workdir
 switch1=1 #Preprocessing (checking and changing dates)
 switch2=1  #Wave + anomalies + Mean analysis + season analysis + temporal mean + spatial mean
 switch3=1 #Plotting series
@@ -63,7 +63,6 @@ cp ${cajondir}/genfechas-1h.f    ${progsdir}
 cp ${cajondir}/ondanual.f        ${progsdir}
 cp ${cajondir}/runmean.f         ${progsdir}
 cp ${cajondir}/trans.f           ${progsdir}
-cp ${cajondir}/seleofcca.f       ${progsdir}
 
 #Compiling programs
 ${scriptsdir}/generico/compila.sh       fechas2.f
@@ -78,7 +77,6 @@ ${scriptsdir}/generico/compila.sh       genfechas-1h.f
 ${scriptsdir}/generico/compila.sh       ondanual.f
 ${scriptsdir}/generico/compila.sh       runmean.f
 ${scriptsdir}/generico/compila.sh       trans.f
-${scriptsdir}/generico/compila.sh       seleofcca.f
 
 #Checking dates and format
 echo "Checking dates and format\n"
@@ -321,21 +319,30 @@ echo "Plotting maps\n"
 #Plotting
 if [ ${switch4} -eq 1 ] ; then
 
-${scriptsdir}/d2/gmt_IP.sh def_spatial_mean.ext #gmt_IP.sh includes transpon.f and origin2.f to generates dataset, transpon.f have modified the parameters to work!
-mv cont_analysis.ps ${plotsdir}/def-map.ps
+echo "DEF"
+${scriptsdir}/d2/gmt_med.sh def_spatial_mean.ext #gmt_IP.sh includes transpon.f and origin2.f to generates dataset, transpon.f have modified the parameters to work!
+ps2eps -f cont_analysis.ps
+mv cont_analysis.eps ${plotsdir}/def-map.ps
 
-${scriptsdir}/d2/gmt_IP.sh mam_spatial_mean.ext 
-mv cont_analysis.ps ${plotsdir}/mam-map.ps
+echo "MAM"
+${scriptsdir}/d2/gmt_med.sh mam_spatial_mean.ext #gmt_IP.sh includes transpon.f and origin2.f to generates dataset, transpon.f>
+ps2eps -f cont_analysis.ps
+mv cont_analysis.eps ${plotsdir}/mam-map.ps
 
-${scriptsdir}/d2/gmt_IP.sh jja_spatial_mean.ext
-mv cont_analysis.ps ${plotsdir}/jja-map.ps
+echo "JJA"
+${scriptsdir}/d2/gmt_med.sh jja_spatial_mean.ext
+ps2eps -f cont_analysis.ps
+mv cont_analysis.eps ${plotsdir}/jja-map.ps
 
-${scriptsdir}/d2/gmt_IP.sh son_spatial_mean.ext
-mv cont_analysis.ps ${plotsdir}/son-map.ps
+echo "SON"
+${scriptsdir}/d2/gmt_med.sh son_spatial_mean.ext
+ps2eps -f cont_analysis.ps
+mv cont_analysis.eps ${plotsdir}/son-map.ps
 
-${scriptsdir}/d2/gmt_IP.sh anu_spatial_mean.ext
-mv cont_analysis.ps ${plotsdir}/anu-map.ps
-fi
+echo "ANU"
+${scriptsdir}/d2/gmt_med.sh anu_spatial_mean.ext
+ps2eps -f cont_analysis.ps
+mv cont_analysis.eps ${plotsdir}/anu-map.ps
 fi
 
 #----------------------------------------------> Switch5

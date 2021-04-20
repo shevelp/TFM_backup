@@ -10,19 +10,29 @@
 #helpfin
 #
 #
-dirhome=/Users/elena/entra/people/TFM/TFM2015
-scriptsdir=${dirhome}/scripts/
-direxec=${dirhome}/progs/exec/
+dirhome=/home/sergiolp/Work/TFM
 
+workdir=${dirhome}/work/d2
+datadir=${dirhome}/data/d2
+plotsdir=${dirhome}/plots/d2
+progsdir=${dirhome}/progs/codig
+progsdirexec=${dirhome}/progs/exec
+scriptsdir=${dirhome}/scripts
+cajondir=${dirhome}/cajon/codig_fortran
+
+#########################################################################
+#cd ${progsdir}
 #
-#${scriptsdir}/compila.sh ponasci.f   #Compilar solo una vez!!!
+#${scriptsdir}/generico/compila.sh /ponasci.f   #Compilar solo una vez!!!
+#
+#########################################################################
 
-rm q
 
-${direxec}ponasci.f.out<<m1
+cd ${workdir}
+
+${progsdirexec}/ponasci.f.out<<m1
 $1
-q
+$2
 m1
-more q
 
 exit

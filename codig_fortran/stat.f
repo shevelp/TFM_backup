@@ -31,7 +31,7 @@ c      read(*,*)opt
 c
 c________________________________________________________________
 chelpfin
-        parameter(spval=9.E10,nsp=50000,ntp=10000)
+        parameter(spval=9.E10,nsp=105000,ntp=20000)
 c       parameter(spval=9.E10,ntp=5000,nsp=20000)
 c
       integer ia(4)
@@ -222,7 +222,7 @@ c===========================================
 c
          integer l,c
          real mean,sum
-         real vec(70000)
+         real vec(105000)
 c.....
          mean=0.0
          sum=0.
@@ -251,7 +251,7 @@ c============================================
 c
         integer l,c
         real mean,varv,sum
-        real vec(70000)
+        real vec(105000)
 c.....
         varv=0.
         sum=0.
@@ -276,7 +276,7 @@ c.....definicion de variables
 c
       integer jj,i,l,l1,camb2,nso
       real camb1
-      real x(70000),xo(70000)
+      real x(105000),xo(105000)
 c
 c.....ordena de mayor a menor
 c
@@ -333,7 +333,7 @@ c
       integer l,par,new
       integer lim1,lim2
       real mdna,q1,q2,d,ln,ll
-      real xo(70000)
+      real xo(105000)
 c
       ll=float(int(l/2))
       ln=l/2

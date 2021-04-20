@@ -23,7 +23,7 @@ c     erzeugen:
 c     Bei monatlichen Daten ist das Inkrement 1/12. Das Anfangsjahr
 c     ist ajahr. Zu jedem Zeitschritt wird das inkrement+ajahr genommen.
 
-      parameter(maxsta=50000,maxste=10000)
+      parameter(maxsta=101178,maxste=17520)
       character*64 in,out
       character*1 rep
       real data(maxsta,maxste)

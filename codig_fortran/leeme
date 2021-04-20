@@ -1,0 +1,15 @@
+Fichero guía de programas fortran
+
+PROGRAMA                                       FUNCION
+______________________________________________________
+
+origin2.f							pasa de formato extra a ascii (solo las columnas de datos)
+
+origin.f							pasa de extra a ascii (con las fechas y el numero de dato)
+
+traspon.f 							transforma las filas en columnas y las columnas en filas
+
+pasaext_serie.f					                pasa de formato ascii a formato extra
+
+
+							
