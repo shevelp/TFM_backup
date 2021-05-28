@@ -9,11 +9,11 @@
 
 #Downloading files from server:
 
-#1) scp guest@xirimiri.fis.ucm.es:/home/guest/GReatModelS/out/b1.01/t2_d01.ext /home/sergiolp/Work/TFM/data/d2
+#1) scp guest@xirimiri.fis.ucm.es:/home/guest/GReatModelS/out/b1.01/tprec-dt_final.ext /home/sergiolp/Work/TFM/data/d2
 #2) scp guest@xirimiri.fis.ucm.es:/home/guest/GReatModelS/out/latlon/lat_lon_GReatModelS.dat /home/sergiolp/Work/TFM/data/d2
 
 #---Switches -----# 
-switch0=0 #Copying data to workdir 
+switch0=1 #Copying data to workdir 
 switch1=1 #Preprocessing (checking and changing dates)
 switch2=1  #Wave + anomalies + Mean analysis + season analysis + temporal mean + spatial mean
 switch3=1 #Plotting series
@@ -78,9 +78,9 @@ ${scriptsdir}/generico/compila.sh       genfechas-1h.f
 ${scriptsdir}/generico/compila.sh       ondanual.f
 ${scriptsdir}/generico/compila.sh       runmean.f
 ${scriptsdir}/generico/compila.sh       trans.f
-${scriptsdir}/generico/compila_v7.sh    stat.f
-$${scriptsdir}/generico/compila.sh      ponasci.f
-exit
+#${scriptsdir}/generico/compila_v7.sh    stat.f
+#${scriptsdir}/generico/compila.sh      ponasci.f
+
 
 #Checking dates and format
 echo "Checking dates and format\n"
@@ -134,16 +134,16 @@ diary_mean.ext
 eof
 echo "Done\n"
 
-#Wave, moving average
-sh ${scriptsdir}/generico/ondanual_s.sh diary_mean.ext anom.ext
+#anomalies
+sh ${scriptsdir}/generico/ondanual_s.sh diary_mean.ext diary_mean_anom.ext
 
-#Anomalies: change NN: use anomalies_p
+#suavizado
 #------------------------------------
-#echo "Calculating anomalies"
-#${progsdirexec}/anomal-p.f.out <<eof
-#diary_mean_wave.ext
-#anom.ext
-#eof
+echo "Calculating anomalies"
+${progsdirexec}/anomal-p.f.out <<eof
+diary_mean_anom.ext
+anom.ext
+eof
 
 #-----------------------------------
 #Seasson selection
@@ -193,6 +193,7 @@ anu.ext
 1,12
 eof
 echo "Done\n"
+
 #------------------------------------
 
 #Temporal mean
@@ -231,6 +232,14 @@ anu.ext
 anu_mean.ext
 eof
 echo "Done\n"
+
+echo "Calculando la media mensual para el plot"
+${progsdirexec}/medias.f.out <<eof
+anu_mean.ext
+monthly_mean.ext
+3
+1
+eof
 
 #--------------------------------------------
 #Spatial mean
@@ -276,6 +285,14 @@ fi
 #----------------------------------------------> Switch3 MODIFICAR EL SCRIPT THE GNUPLOT
 if [ ${switch3} -eq 1 ] ; then
 
+echo "Passing Monthly Mean to DAT"
+#from ext to dat format
+${progsdirexec}/origin2.f.out<<eof
+monthly_mean.ext
+1.0
+monthlymean.dat
+eof
+
 echo "Plotting series: Winter"
 #from ext to dat format
 ${progsdirexec}/origin-gn.f.out<<eof
@@ -285,7 +302,7 @@ def.dat
 eof
 
 #ploting
-${scriptsdir}/d2/gn_cycle.sh def.dat $2
+${scriptsdir}/d2/gn_cycle.sh def.dat monthlymean.dat
 mv plot.ps ${plotsdir}/def_series.ps
 
 echo "Plotting series: Spring"
@@ -297,7 +314,7 @@ mam.dat
 eof
 
 #ploting
-${scriptsdir}/d2/gn_cycle.sh mam.dat $2
+${scriptsdir}/d2/gn_cycle.sh mam.dat monthlymean.dat
 mv plot.ps ${plotsdir}/mam_series.ps
 
 echo "Plotting series: Summer"
@@ -309,7 +326,7 @@ jja.dat
 eof
 
 #ploting
-${scriptsdir}/d2/gn_cycle.sh jja.dat $2
+${scriptsdir}/d2/gn_cycle.sh jja.dat monthlymean.dat
 mv plot.ps ${plotsdir}/jja_series.ps
 
 echo "Plotting series: Autumn"
@@ -321,7 +338,7 @@ son.dat
 eof
 
 #ploting
-${scriptsdir}/d2/gn_cycle.sh son.dat $2
+${scriptsdir}/d2/gn_cycle.sh son.dat monthlymean.dat
 mv plot.ps ${plotsdir}/son_series.ps
 
 echo "Plotting series: Anual"
@@ -333,7 +350,7 @@ anu.dat
 eof
 
 #ploting
-${scriptsdir}/d2/gn_cycle.sh anu.dat $2
+${scriptsdir}/d2/gn_cycle.sh anu.dat monthlymean.dat
 mv plot.ps ${plotsdir}/anu_series.ps
 fi
 

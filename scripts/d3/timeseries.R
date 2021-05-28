@@ -6,10 +6,14 @@ library(ggplot2)
 library(Kendall)
 
 # Distribuida
-serie_1<- read.table("anu_d.dat", header = FALSE)
+serie_1<- read.table("lesgo.dat", header = FALSE)
+
+media <- mean(serie_1$V4)
+varianza <-  var(serie_1$V4)
+
 
 # Continua
-serie_2 <- read.table("anu.dat", header = FALSE)
+serie_2 <- read.table("anu_c.dat", header = FALSE)
 
 #TIME SERIES PLOT
 
@@ -41,3 +45,4 @@ ks_dc
 
 kendal_dc <- Kendall(serie_1$V4, serie_2$V4)
 kendal_dc
+

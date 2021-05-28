@@ -5,8 +5,8 @@
 #                                                                            #
 #                                                                            #
 #                       SHELL SCRIPT: STATISTICAL ANALYSIS(POINTS)           #
-#                                (STAT.F)                                    #
-#                                                                            #
+#                                (STAT.F(1) + RESTA = BIAS                   #
+#                                 BIAS + PLOT                                 #
 #                                                                            #
 #                                                                            #
 ##############################################################################
@@ -26,13 +26,22 @@ scriptsdir=${dirhome}/scripts
 cajondir=${dirhome}/cajon/codig_fortran
 
 
-# Going to your work directory and selecting point (SERIE)
+# Selecting the stat (1 = mean) for both matrixes
 #---------------------------------------------------------------------------
 
 cd ${workdir}
 
-file=$1
-outfile=$2
+echo "Whats your first matrix?"
+read file1
+
+echo "Whats your second matrix?"
+read file2
+
+echo "Output1?"
+read outfile1
+
+echo "Output2?"
+read outfile2
 
 echo " Seleccion de salida:
 0.  Todas las variable
@@ -50,29 +59,31 @@ echo " Seleccion de salida:
 
 read option
 
-echo "Getting operation \n" 
+echo "Getting operation for matrix 1 \n" 
 ${progsdirexec}/stat.f.out<<eof #modify program to your dimension
-${workdir}/$file
-${workdir}/$outfile
+$file1
+$outfile1
 $option
 eof
 echo "Done\n"
 
-#----------------------------------------------------------------------------
-echo "Changing to ascii"
-${progsdirexec}/origin2.f.out<<eof
-${workdir}/$outfile
-1.0
-${workdir}/$3.dat
+echo "Getting operation for matrix 2 \n" 
+${progsdirexec}/stat.f.out<<eof #modify program to your dimension
+${datadir}/$file2
+$outfile2
+$option
 eof
 echo "Done\n"
 
-cat ${workdir}/$3.dat
+# Calculating bias = substraction
+#----------------------------------------------------------------------------
 
-
-
-
-
-
-
+#### Saco serie sin onda anual:
+${progsdirexec}/trans.f.out<<eof
+6
+$outfile1
+$outfile2
+-1 #multiplicar por un factor -1 para que sea una resta
+bias.ext
+eof
 

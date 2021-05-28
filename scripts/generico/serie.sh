@@ -17,7 +17,7 @@
 
 dirhome=/home/sergiolp/Work/TFM
 
-workdir=${dirhome}/work/d2
+workdir=${dirhome}/work/d3
 datadir=${dirhome}/data/d2
 plotsdir=${dirhome}/plots/d2
 progsdir=${dirhome}/progs/codig
@@ -41,7 +41,7 @@ echo "Getting files\n"
 ${progsdirexec}/sacser.f.out<<eof #modify program to your dimension
 ${datadir}/$file
 $point
-${datadir}/$outfile
+$outfile
 eof
 echo "Done\n"
 

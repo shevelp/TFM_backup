@@ -1,0 +1,23 @@
+
+#Size
+set size 1,1
+
+#Tics & labels
+set xtics font ",18"
+set ytics font ",20"
+set xtics out offset -2.5,-3 rotate by 60
+set tic scale 0.1
+set ylabel "Anom Temperature at 2m (C)"
+set xlabel "Date" offset 0,-2,0
+
+set style line 1 lt 1 lw 3 lc rgb '#6495ED'
+set style line 2 lt 1 lw 2 lc rgb '#FF6347'
+
+
+#Plot with labels column 2 each 
+plot 'anu.dat' using 4:xtic(int($0)%30 ? " " : strcol(2)) title "Distributed" w lines linestyle 1,      'anu_c.dat' using 4:xtic(int($0)%30 ? " " : strcol(2)) title "Continuous" w lines linestyle 2;
+
+#Final
+set output "plot.ps"
+set term post landscape color solid  "Times-Roman" 23
+replot

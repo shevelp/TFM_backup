@@ -130,9 +130,16 @@ sh ${scriptsdir}/generico/ondanual_s.sh diary_mean.ext diary_mean_wave.ext
 
 #-----------------------------------
 #Seasson selection
-echo "Seasson selection:Winter\n"
-${progsdirexec}/selmon_ia10.f.out<<eof
+echo "Seasson selection:Winter\n" #Special:### Se recorta el periodo para que empiece por 
+#diciembre y así tener meses de un mismo invierno 
+${progsdirexec}/selper.f.out<<eof
 diary_mean.ext
+winter.ext
+1990120100,1991113000
+eof
+
+${progsdirexec}/selmon_ia10.f.out<<eof
+winter.ext
 def.ext
 12,2
 eof

@@ -3,7 +3,7 @@
 # _______________________________________________________________________
 #
 #    
-#     Muestra en pantalla contenido de ficheros en formato extra (binario)
+#     Saca la media diaria de un fichero
 #     
 # _______________________________________________________________________
 #helpfin
@@ -19,19 +19,17 @@ progsdirexec=${dirhome}/progs/exec
 scriptsdir=${dirhome}/scripts
 cajondir=${dirhome}/cajon/codig_fortran
 
-#########################################################################
-#cd ${progsdir}
-#
-#${scriptsdir}/generico/compila.sh /ponasci.f   #Compilar solo una vez!!!
-#
-#########################################################################
-
+###########################################################
 
 cd ${workdir}
 
-${progsdirexec}/ponasci.f.out<<m1
+#Diary mean
+echo "Calculating diary mean\n"
+${progsdirexec}/med_day.f.out<<eof
 $1
+0
 $2
-m1
+eof
+echo "Done\n"
 
 exit
